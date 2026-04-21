@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Bức Tường Tri Ân — Ivy Global School</title>
+<title>IGS Choice Awards — Teacher Appreciation Week</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -38,12 +38,30 @@
 
   /* ── HERO ── */
   .hero {
-    background: linear-gradient(135deg, #0F6E56 0%, #1D9E75 50%, #5DCAA5 100%);
+    background: url('ECO-SCIENCE-FAIR%20(3).png') center center / cover no-repeat;
     color: white;
     text-align: center;
-    padding: 3rem 1rem 4rem;
+    padding: 0;
     position: relative;
     overflow: hidden;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .hero-img-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.45) 100%);
+  }
+  .hero-stats-wrap {
+    position: relative;
+    z-index: 2;
+    background: rgba(0,0,0,0.3);
+    backdrop-filter: blur(4px);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
   }
   .hero::before {
     content: '';
@@ -150,11 +168,14 @@
   .rank-2 { background: #E9ECEF; color: #495057; }
   .rank-3 { background: #FDE8D8; color: #854F0B; }
   .avatar {
-    width: 58px; height: 58px; border-radius: 50%;
+    width: 80px; height: 80px; border-radius: 50%;
     margin: 0 auto 10px; display: flex;
     align-items: center; justify-content: center;
     font-size: 18px; font-weight: 600;
-    border: 2px solid rgba(0,0,0,0.06);
+    border: 3px solid rgba(255,255,255,0.9);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    overflow: hidden; position: relative;
+    background: #f0f0f0;
   }
   .t-name { font-size: 12.5px; font-weight: 600; color: var(--text); margin-bottom: 2px; line-height: 1.35; }
   .t-subject { font-size: 11px; color: var(--text-3); margin-bottom: 8px; }
@@ -272,7 +293,7 @@
   /* ── TOAST ── */
   .toast {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-    background: #0F6E56; color: white; padding: 12px 24px;
+    background: #1a4fbb; color: white; padding: 12px 24px;
     border-radius: 30px; font-size: 13px; font-weight: 500;
     z-index: 999; opacity: 0; pointer-events: none; transition: opacity 0.3s;
     white-space: nowrap;
@@ -293,10 +314,8 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-badge">🌿 20 tháng 11 · Ngày Nhà Giáo Việt Nam</div>
-  <h1>Bức Tường Tri Ân</h1>
-  <p>Ivy Global School — Nơi mỗi lời cảm ơn trở thành kỷ niệm đẹp cho thầy cô</p>
-  <div class="hero-stats">
+  <div class="hero-img-overlay"></div>
+  <div class="hero-stats-wrap">
     <div class="hero-stat">
       <div class="hero-stat-num" id="h-votes">0</div>
       <div class="hero-stat-label">❤️ Lượt thả tim</div>
@@ -307,7 +326,7 @@
     </div>
     <div class="hero-stat">
       <div class="hero-stat-num">52</div>
-      <div class="hero-stat-label">Thầy cô</div>
+      <div class="hero-stat-label">✨ Thầy cô</div>
     </div>
   </div>
 </div>
@@ -409,7 +428,7 @@
 
 <div class="toast" id="toast"></div>
 
-<div class="footer">Ivy Global School · Ngày Nhà Giáo Việt Nam 20/11 · Made with 💛</div>
+<div class="footer">Ivy Global School · IGS Choice Awards · Teacher Appreciation Week 💙</div>
 
 <script>
 // ══════════════════════════════════════════
@@ -493,6 +512,7 @@ function init() {
     initials: getInitials(t.name),
     votes: 0,
     liked: false,
+    photo: t.photo || null,
     color: COLORS[i % COLORS.length],
   }));
   renderGrid(teachers);
@@ -532,9 +552,11 @@ function renderGrid(list) {
     const badge = rank === 0 ? '<div class="rank-badge rank-1">🥇 #1</div>'
       : rank === 1 ? '<div class="rank-badge rank-2">🥈 #2</div>'
       : rank === 2 ? '<div class="rank-badge rank-3">🥉 #3</div>' : '';
+    const photoSrc = t.photo ? t.photo : 'COM%20T4.jpg';
+    const avatarHtml = `<div class="avatar"><img src="${photoSrc}" alt="${t.name}" onerror="this.src='COM%20T4.jpg'" style="width:100%;height:100%;object-fit:cover;border-radius:50%" /></div>`;
     return `<div class="teacher-card">
       ${badge}
-      <div class="avatar" style="background:${t.color.bg};color:${t.color.text}">${t.initials}</div>
+      ${avatarHtml}
       <div class="t-name">${t.name}</div>
       <div class="vote-row">
         <button class="btn-heart ${t.liked ? 'liked' : ''}" onclick="toggleHeart(${t.id}, this)" title="Thả tim cho thầy/cô">
